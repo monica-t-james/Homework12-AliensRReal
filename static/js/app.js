@@ -49,8 +49,9 @@ submit.on("click", function() {
     // Prevent the page from refreshing
     d3.event.preventDefault();
 
-    // Clear table
+    // Clear table and message if it exists
     tbody.html("");
+    d3.select("span").html("");
     
     // Rebuild full table
     buildTable(tableData);
