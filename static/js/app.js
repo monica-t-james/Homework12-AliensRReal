@@ -22,28 +22,43 @@ submit.on("click", function() {
     // Prevent the page from refreshing
     d3.event.preventDefault();
 
-    // Select the input element and get the raw HTML node
-    var inputElement = d3.select("#datetime");
-
     // Get the value property of the input element
-    var inputValue = inputElement.property("value");
+    var inputValueDate = d3.select("#datetime").property("value");
+    var inputValueCity = d3.select("#city").property("value");
+    var inputValueState = d3.select("#state").property("value");
+    var inputValueCountry = d3.select("#country").property("value");
+    var inputValueShape = d3.select("#shape").property("value");
 
     // Filtered data array
-    var filteredData = tableData.filter(tableDatum => tableDatum.datetime === inputValue);
+    var filteredData = tableData.filter(tableDatum => 
+        tableDatum.datetime === inputValueDate || 
+        tableDatum.city === inputValueCity ||
+        tableDatum.state === inputValueState ||
+        tableDatum.country === inputValueCountry ||
+        tableDatum.shape === inputValueShape);
 
-    // Clear table
+    // Clear table and message if it exists
     tbody.html("");
+    d3.select("span").html("");
+
 
     if(filteredData === undefined || filteredData.length == 0) {
-        d3.select("span").text("No UFO sightings for the date you entered! Try again!").style("font-size", "16px");
+        d3.select("span").text("No UFO sightings for the filter(s) you entered! Try again!").style("font-size", "16px");
     }
     else {
         // Display new table with filtered data
         buildTable(filteredData);
     }
+
+    // Clear filters
+    d3.select("#datetime").node().value = "";
+    d3.select("#city").node().value = "";
+    d3.select("#state").node().value = "";
+    d3.select("#country").node().value = "";
+    d3.select("#shape").node().value = "";
 });
 
-// Select the All Dates button
+// Select the Reset button
 var submit = d3.select("#un-filter-btn");
 submit.on("click", function() {
     // Prevent the page from refreshing
